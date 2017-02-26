@@ -12,6 +12,7 @@ class RetweetCell: UITableViewCell {
     
     var delegate: FeedViewControllerDelegate?
     var tweet: Tweet?
+    @IBOutlet weak var nameLeft: NSLayoutConstraint!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var retweetLabel: UILabel!
@@ -22,6 +23,7 @@ class RetweetCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var retweetCLabel: UILabel!
     @IBOutlet weak var favoriteLabel: UILabel!
+    @IBOutlet weak var verifiedView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

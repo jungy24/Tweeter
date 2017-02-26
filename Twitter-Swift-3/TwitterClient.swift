@@ -92,6 +92,8 @@ class TwitterClient: BDBOAuth1SessionManager {
     // Logout user 
     func logout() {
         // Clear current user
+        UserDefaults.standard.set(nil, forKey: "currentUser")
+        UserDefaults.standard.synchronize()
         User.currentUser = nil
         deauthorize()
         

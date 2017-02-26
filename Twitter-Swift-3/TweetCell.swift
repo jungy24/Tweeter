@@ -24,6 +24,8 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var favoriteLabel: UILabel!
+    @IBOutlet weak var verifiedView: UIImageView!
+    @IBOutlet weak var nameLeft: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -15,6 +15,9 @@ protocol FeedViewControllerDelegate {
 }
 class FeedViewController: UITableViewController, FeedViewControllerDelegate {
     var tweets: [Tweet] = []
+    var isMoreDataLoading = false
+    var loadingMoreView:InfiniteScrollActivityView?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +37,14 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
         self.navigationItem.titleView?.isUserInteractionEnabled = true
         self.navigationItem.titleView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toTop)))
         
+        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tableView.contentInset = insets
         refreshControl = UIRefreshControl()
         tableView.insertSubview(refreshControl!, at: 0)
         refreshControl?.addTarget(self, action: #selector(loadTweets), for: .valueChanged)
@@ -77,6 +88,13 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
             cell.retweetLabel.adjustsFontSizeToFitWidth = true
             cell.favoriteLabel.adjustsFontSizeToFitWidth = true
             cell.tweet = tweet
+            if (tweet.user?.verified)! {
+                print("verified")
+                cell.nameLeft.constant = 23.0
+                let verifiedView = UIImageView()
+                cell.verifiedView.isHidden = false
+                print("hi")
+            }
             cell.delegate = self
             print(tweet.timestamp?.timeIntervalSinceNow)
             var time = (tweet.timestamp?.timeIntervalSinceNow)! / -1
@@ -100,7 +118,6 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
             }
             cell.timeLabel.text = "\(Int(round(time)))\(letter)"
             if let rt = tweet.retweeted {
-                print(rt)
                 if (rt == true) {
                     cell.retweetButton.imageView?.image = UIImage(named: "retweet-icon-green.png")
                     
@@ -126,8 +143,14 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
             cell.retweetLabel.adjustsFontSizeToFitWidth = true
             cell.favoriteLabel.adjustsFontSizeToFitWidth = true
             cell.tweet = tweet
+            if (tweet.user?.verified)! {
+                print("verified")
+                cell.nameLeft.constant = 23.0
+                let verifiedView = UIImageView()
+                cell.verifiedView.isHidden = false
+                print("hi")
+            }
             cell.delegate = self
-            print(tweet.timestamp?.timeIntervalSinceNow)
             var time = (tweet.timestamp?.timeIntervalSinceNow)! / -1
             var letter = "s"
             if time > 60 {
@@ -149,7 +172,6 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
             }
             cell.timeLabel.text = "\(Int(round(time)))\(letter)"
             if let rt = tweet.retweeted {
-                print(rt)
                 if (rt == true) {
                     cell.retweetButton.imageView?.image = UIImage(named: "retweet-icon-green.png")
                     
@@ -170,29 +192,63 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
  
     func loadTweets() {
         self.view.isUserInteractionEnabled = false
-        TwitterClient.sharedInstance?.getHomeTimeline(parameters: nil, success: { (tweets) in
+        var parameters: [String: Int] = [:]
+        
+        if (refreshControl?.isRefreshing)! {
             self.tweets = []
-            self.tweets = tweets
+        } else if tweets.count > 0 {
+            parameters["max_id"] = tweets[tweets.count - 1].id!
+        }
+        TwitterClient.sharedInstance?.getHomeTimeline(parameters: parameters, success: { (tweets) in
+            let remover = self.tweets.count
+            self.tweets += tweets
+            if self.tweets.count > remover {
+                self.tweets.remove(at: remover)
+                
+            }
             self.tableView.reloadData()
             MBProgressHUD.hide(for: self.view, animated: true)
             self.view.isUserInteractionEnabled = true
             self.refreshControl?.endRefreshing()
+            self.loadingMoreView?.stopAnimating()
+            self.isMoreDataLoading = false
         }, failure: { (error) in
             print(error.localizedDescription)
             MBProgressHUD.hide(for: self.view, animated: true)
             self.view.isUserInteractionEnabled = true
             self.refreshControl?.endRefreshing()
+            self.loadingMoreView?.stopAnimating()
+            self.isMoreDataLoading = false
         })
     }
     
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+                isMoreDataLoading = true
+                
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                // Code to load more results
+                loadTweets()
+            }
+        }
+    }
+    
     func toTop() {
-        print("hi")
-        
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
     @IBAction func onLogout(_ sender: Any) {
-        NotificationCenter.default.post(name: User.userDidLogoutNotification, object: nil)
+        TwitterClient.sharedInstance?.logout()
     }
     
     internal func reload() {

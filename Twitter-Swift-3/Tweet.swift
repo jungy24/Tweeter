@@ -24,7 +24,6 @@ class Tweet: NSObject {
 
     init(info: NSDictionary) {
         self.info = info
-        print(JSON(info))
         if let reTweet = info["retweeted_status"] as? NSDictionary {
             isRetweet = true
             user = User(info: reTweet["user"] as! NSDictionary)

@@ -24,6 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Set feed as root view controller
             let feed = storyboard.instantiateViewController(withIdentifier: "FeedViewController")
             window?.rootViewController = feed
+        } else {
+            let login = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+            window?.rootViewController = login
+
         }
         
         // Watch for notification to logout user
