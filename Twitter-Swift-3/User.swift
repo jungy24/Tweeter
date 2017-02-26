@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyJSON
 
 class User: NSObject {
     
@@ -21,6 +20,7 @@ class User: NSObject {
     var followerCount: Int? // Number of followers
     var location: String? // User location
     var profileURL: URL? // Profile image URL
+    var verified = false // User verification status
     
     init(info: NSDictionary) {
         // Initialize user information
@@ -29,28 +29,34 @@ class User: NSObject {
         screenName = info["screen_name"] as? String
         bio = info["description"] as? String
         friendCount = info["friends_count"] as? Int
-        
+        followerCount = info["followers_count"] as? Int
+        location = info["location"] as? String
+        verified = info["verified"] as! Bool
+        guard let profileURLString = info["profile_image_url"] as? String else {
+            return
+        }
+        profileURL = URL(string: profileURLString)
     }
     
+    // Class variable that allows for setting and gettting current user
     class var currentUser: User? {
         get {
+            // Get current user info from user defaults if not loaded
             if _currentUser == nil {
                 let defaults = UserDefaults.standard
-                
                 let data = defaults.object(forKey: "currentUser") as? Data
-                
                 if let info = data {
                     let json = try! JSONSerialization.jsonObject(with: info, options: []) as! NSDictionary
                     _currentUser = User(info: json)
                 }
             }
-            
+            // Return current user
             return _currentUser
         }
         
         set(user) {
             let defaults = UserDefaults.standard
-            
+            // Set current user
             guard let user = user else {
                 defaults.set(nil, forKey: "currentUser")
                 defaults.synchronize()

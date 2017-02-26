@@ -8,6 +8,7 @@
 
 import UIKit
 import BDBOAuth1Manager
+import SwiftyJSON
 
 class TwitterClient: BDBOAuth1SessionManager {
     
@@ -49,7 +50,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         
         // Get access token using request token otherwise print error
         fetchAccessToken(withPath: "oauth/access_token", method: "POST", requestToken: requestToken, success: { (credential) in
-            guard let credential = credential else {
+            guard credential != nil else {
                 return
             }
             
@@ -58,8 +59,8 @@ class TwitterClient: BDBOAuth1SessionManager {
                 User.currentUser = user
                 self.loginSuccess!()
             }, failure: { (error) in
-                // Print error
-                print(error.localizedDescription)
+                // Return error
+                self.loginFailure!(error)
             })
         }) { (error) in
             guard let error = error else {
@@ -99,20 +100,53 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     // Get user's timeline
-    func getHomeTimeline(parameters: [String: Int]?, success: ([NSDictionary]) -> (), failure: @escaping (Error) -> ()) {
+    func getHomeTimeline(parameters: [String: Int]?, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         // Get request using token
         self.get("1.1/statuses/home_timeline.json", parameters: parameters, progress: nil, success: { (task, response) in
-            guard let response = response else {
+            guard let response = response as? [NSDictionary] else {
                 return
             }
-            
-            
-            
+        
+            // Parse tweets and return
+            let tweets = Tweet.tweetsWithArray(infos: response)
+            success(tweets)
         }) { (task, error) in
             
             //Return error
             failure(error)
         }
         
+    }
+    
+    func retweet(id: Int, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("https://api.twitter.com/1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (task, response) in
+            success()
+        }) { (task, error) in
+            failure(error)
+        }
+    }
+    
+    func unRetweet(id: Int, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("https://api.twitter.com/1.1/statuses/unretweet/\(id).json", parameters: nil, progress: nil, success: { (task, response) in
+            success()
+        }) { (task, error) in
+            failure(error)
+        }
+    }
+    
+    func favorite(id: Int, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("https://api.twitter.com/1.1/favorites/create.json?id=\(id)", parameters: nil, progress: nil, success: { (task, response) in
+            success()
+        }) { (task, error) in
+            failure(error)
+        }
+    }
+    
+    func unFavorite(id: Int, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("https://api.twitter.com/1.1/favorites/destroy.json?id=\(id)", parameters: nil, progress: nil, success: { (task, response) in
+            success()
+        }) { (task, error) in
+            failure(error)
+        }
     }
 }

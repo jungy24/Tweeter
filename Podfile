@@ -8,4 +8,6 @@ target 'Twitter-Swift-3' do
   # Pods for Twitter-Swift-3
   pod 'BDBOAuth1Manager'
   pod 'SwiftyJSON'
+  pod 'MBProgressHUD'
+  pod 'SDWebImage'
 end

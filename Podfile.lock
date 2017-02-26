@@ -8,17 +8,25 @@ PODS:
   - AFNetworking/Serialization (3.0.4)
   - BDBOAuth1Manager (2.0.0):
     - AFNetworking/NSURLSession (~> 3.0.0)
+  - MBProgressHUD (1.0.0)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - BDBOAuth1Manager
+  - MBProgressHUD
+  - SDWebImage
   - SwiftyJSON
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   BDBOAuth1Manager: 92d17d06f8a648602962304cd2f35ae7394fa001
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: fcd670c103db3b3a735a0ad1fb06ca07f1d38d7c
+PODFILE CHECKSUM: 3f2fcc2e1c93c7a065f7965173a94758ebcb7246
 
 COCOAPODS: 1.2.0
