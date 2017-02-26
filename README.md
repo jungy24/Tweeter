@@ -16,7 +16,7 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-- [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+- [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 - [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
 - [x] User can pull to refresh.
 
@@ -28,6 +28,7 @@ The following **additional** features are implemented:
   - [x] Verified status for Users
 - [x] SDWebImage cocoapod for image downloading
 - [x] Twitter LaunchScreen
+- [x] Show verified badges for users
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
@@ -38,13 +39,14 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='Twitter' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
 Describe any challenges encountered while building the app.
+Figuring out a good way to display the post user's verified status was tricky. Also making sure to differentiate between regular tweets and retweets.
 
 ## License
 
