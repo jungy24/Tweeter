@@ -43,14 +43,24 @@ class RetweetCell: UITableViewCell {
         if (!(tweet?.retweeted)!) {
             TwitterClient.sharedInstance?.retweet(id: self.tweet!.id!, success: {
                 print("retweeted \(self.tweet!.id!)")
-                self.retweetButton.imageView?.image = UIImage(named: "retweet-icon-green.png")
+                DispatchQueue.main.async {
+                    self.retweetButton.imageView?.image = UIImage(named: "retweet-icon-green.png")
+                    self.tweet?.retweeted = true
+                    self.tweet?.retweetCount = (self.tweet?.retweetCount)! + 1
+                    self.retweetLabel.text = "\((self.tweet?.retweetCount)!)"
+                }
             }, failure: { (error) in
                 print("error")
             })
         } else {
             TwitterClient.sharedInstance?.unRetweet(id: self.tweet!.id!, success: {
                 print("unretweeted \(self.tweet!.id!)")
-                self.retweetButton.imageView?.image = UIImage(named: "retweet-icon.png")
+                DispatchQueue.main.async {
+                    self.retweetButton.imageView?.image = UIImage(named: "retweet-icon.png")
+                    self.tweet?.retweeted = true
+                    self.tweet?.retweetCount = (self.tweet?.retweetCount)! + 1
+                    self.retweetLabel.text = "\((self.tweet?.retweetCount)!)"
+                }
             }, failure: { (error) in
                 print("error")
             })
@@ -61,14 +71,24 @@ class RetweetCell: UITableViewCell {
         if (!(tweet?.favorited)!) {
             TwitterClient.sharedInstance?.favorite(id: self.tweet!.id!, success: {
                 print("favorited \(self.tweet!.id!)")
-                self.favoriteButton.imageView?.image = UIImage(named: "favor-icon-red.png")
+                DispatchQueue.main.async {
+                    self.favoriteButton.imageView?.image = UIImage(named: "favor-icon-red.png")
+                    self.tweet?.favorited = true
+                    self.tweet?.favoriteCount = (self.tweet?.favoriteCount)! + 1
+                    self.retweetLabel.text = "\((self.tweet?.favoriteCount)!)"
+                }
             }, failure: { (error) in
                 print("error")
             })
         } else {
             TwitterClient.sharedInstance?.unFavorite(id: self.tweet!.id!, success: {
                 print("unfavorited \(self.tweet!.id!)")
-                self.favoriteButton.imageView?.image = UIImage(named: "favor-icon.png")
+                DispatchQueue.main.async {
+                    self.favoriteButton.imageView?.image = UIImage(named: "favor-icon.png")
+                    self.tweet?.favorited = false
+                    self.tweet?.favoriteCount = (self.tweet?.favoriteCount)! - 1
+                    self.favoriteLabel.text = "\((self.tweet?.favoriteCount)!)"
+                }
             }, failure: { (error) in
                 print("error")
             })

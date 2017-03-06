@@ -108,7 +108,8 @@ class TwitterClient: BDBOAuth1SessionManager {
             guard let response = response as? [NSDictionary] else {
                 return
             }
-        
+            
+            print(JSON(response))
             // Parse tweets and return
             let tweets = Tweet.tweetsWithArray(infos: response)
             success(tweets)

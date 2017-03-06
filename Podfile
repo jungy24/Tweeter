@@ -10,4 +10,5 @@ target 'Twitter-Swift-3' do
   pod 'SwiftyJSON'
   pod 'MBProgressHUD'
   pod 'SDWebImage'
+  pod 'DOFavoriteButton'
 end

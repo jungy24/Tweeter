@@ -70,7 +70,10 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
         // #warning Incomplete implementation, return the number of rows
         return tweets.count
     }
-
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "detailSegue", sender: indexPath)
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tweet = tweets[indexPath.row]
@@ -255,14 +258,20 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
         loadTweets()
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "detailSegue" {
+            self.navigationController?.navigationBar.tintColor = UIColor(red: 44.0 / 255.0, green: 163.0 / 255.0, blue: 239.0 / 255.0, alpha: 255.0 / 255.0)
+            let indexPath = sender as! IndexPath
+            let vc = segue.destination as! DetailViewController
+            vc.tweet = tweets[indexPath.row]
+        }
     }
-    */
+    
 
 }

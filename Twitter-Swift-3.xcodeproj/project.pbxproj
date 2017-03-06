@@ -20,6 +20,7 @@
 		C78BAE881E629D0400FE0768 /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BAE871E629D0400FE0768 /* InfiniteScrollActivityView.swift */; };
 		C7A2CA891E5CADAB00981D77 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2CA881E5CADAB00981D77 /* TwitterClient.swift */; };
 		C7A2CA8B1E5CD34300981D77 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2CA8A1E5CD34300981D77 /* User.swift */; };
+		C7BF701C1E6C081E006F66D1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BF701B1E6C081E006F66D1 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		C78BAE871E629D0400FE0768 /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 		C7A2CA881E5CADAB00981D77 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
 		C7A2CA8A1E5CD34300981D77 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C7BF701B1E6C081E006F66D1 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				C75ED6AE1E614074008B62EB /* TweetCell.swift */,
 				C73DD9591E6182B9006D9AC6 /* RetweetCell.swift */,
 				C78BAE871E629D0400FE0768 /* InfiniteScrollActivityView.swift */,
+				C7BF701B1E6C081E006F66D1 /* DetailViewController.swift */,
 			);
 			path = "Twitter-Swift-3";
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				C7A2CA891E5CADAB00981D77 /* TwitterClient.swift in Sources */,
 				C73DD95A1E6182B9006D9AC6 /* RetweetCell.swift in Sources */,
 				C75ED68F1E5EE8D8008B62EB /* Tweet.swift in Sources */,
+				C7BF701C1E6C081E006F66D1 /* DetailViewController.swift in Sources */,
 				C75ED68D1E5EABF3008B62EB /* LoginViewController.swift in Sources */,
 				C7512E021E5B765C00A271B6 /* AppDelegate.swift in Sources */,
 			);
