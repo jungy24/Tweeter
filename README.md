@@ -50,7 +50,7 @@ Figuring out a good way to display the post user's verified status was tricky. A
 
 ## License
 
-    Copyright [2017] [Siraj Zaneer]
+    Copyright [2017] [Siraj Zaneer and Jungyoon Yu]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
