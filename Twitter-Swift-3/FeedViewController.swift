@@ -12,12 +12,22 @@ import SDWebImage
 
 protocol FeedViewControllerDelegate {
     func reload()
+    func onProfile(tweet: Tweet)
 }
 class FeedViewController: UITableViewController, FeedViewControllerDelegate {
     var tweets: [Tweet] = []
     var isMoreDataLoading = false
     var loadingMoreView:InfiniteScrollActivityView?
+    var tweetForProfile : Tweet?
 
+    internal func onProfile(tweet: Tweet) {
+        tweetForProfile = tweet
+        self.performSegue(withIdentifier: "toProfile", sender: self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        tweetForProfile = nil
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -261,14 +271,7 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
         loadTweets()
     }
     
-    func profileImageViewTapped(cell: TweetCell, user: User) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let profileVC = storyboard.instantiateViewController(withIdentifier: "othersProf") as? OthersProfViewController {
-            profileVC.user = user
-            self.navigationController?.pushViewController(profileVC, animated: true)
-        }
     
-    }
     
     
     // MARK: - Navigation
@@ -283,6 +286,11 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
             let vc = segue.destination as! DetailViewController
             vc.tweet = tweets[indexPath.row]
         }
+        else if segue.identifier == "toProfile" {
+            let vic = segue.destination as! ProfileViewController
+            vic.tweet = tweetForProfile
+        }
+        
     }
     
 

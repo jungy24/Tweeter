@@ -17,21 +17,35 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var follingCounter: UILabel!
     
     var user : User?
+    var tweet : Tweet?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         print(user)
-        if user == nil {
-            user = User.currentUser
-        }
-        profPic.sd_setImage(with: user?.profileURL)
-        username.text = user?.name
-        tweetCounter.text = "\(user?.twitCount)"
         
-        follerCounter.text = "\(user?.followerCount)"
-        follingCounter.text = "\(user?.followingCount)"
+        if tweet?.user?.name != nil {
+            
+            profPic.sd_setImage(with: tweet!.user!.profileURL)
+            username.text = tweet!.user!.name! as String?
+            tweetCounter.text = "\(tweet!.user!.twitCount!)"
+            
+            follerCounter.text = "\(tweet!.user!.followerCount!)"
+            follingCounter.text = "\(tweet!.user!.followingCount!)"
+            
+        }
+        else {
+            
+            user = User.currentUser
+            profPic.sd_setImage(with: user?.profileURL)
+            username.text = user?.name
+            tweetCounter.text = "\(user!.twitCount!)"
+            
+            follerCounter.text = "\(user!.followerCount!)"
+            follingCounter.text = "\(user!.followingCount!)"
+        
+        }
         
         
         

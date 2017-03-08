@@ -26,14 +26,18 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoriteLabel: UILabel!
     @IBOutlet weak var verifiedView: UIImageView!
     @IBOutlet weak var nameLeft: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.avatarView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onTap(sender:)))
+        self.avatarView.addGestureRecognizer(tap)
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 
@@ -102,5 +106,11 @@ class TweetCell: UITableViewCell {
     
     @IBAction func onMessage(_ sender: Any) {
         
+    }
+    
+    
+    func onTap(sender: UITapGestureRecognizer){
+        print("Tapped")
+        delegate?.onProfile(tweet: tweet!)
     }
 }
