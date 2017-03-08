@@ -27,6 +27,9 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        //self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
         let image : UIImage = UIImage(named: "TwitterLogoBlue.png")!
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         imageView.contentMode = .scaleAspectFit
@@ -256,6 +259,15 @@ class FeedViewController: UITableViewController, FeedViewControllerDelegate {
     
     internal func reload() {
         loadTweets()
+    }
+    
+    func profileImageViewTapped(cell: TweetCell, user: User) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let profileVC = storyboard.instantiateViewController(withIdentifier: "othersProf") as? OthersProfViewController {
+            profileVC.user = user
+            self.navigationController?.pushViewController(profileVC, animated: true)
+        }
+    
     }
     
     

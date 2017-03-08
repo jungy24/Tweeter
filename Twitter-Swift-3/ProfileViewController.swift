@@ -1,19 +1,40 @@
 //
-//  LoginViewController.swift
+//  ProfileViewController.swift
 //  Twitter-Swift-3
 //
-//  Created by Siraj Zaneer on 2/23/17.
+//  Created by Jungyoon Yu on 3/6/17.
 //  Copyright © 2017 Siraj Zaneer. All rights reserved.
 //
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class ProfileViewController: UIViewController {
 
+    @IBOutlet weak var profPic: UIImageView!
+    @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var tweetCounter: UILabel!
+    @IBOutlet weak var follerCounter: UILabel!
+    @IBOutlet weak var follingCounter: UILabel!
+    
+    var user : User?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        print(user)
+        if user == nil {
+            user = User.currentUser
+        }
+        profPic.sd_setImage(with: user?.profileURL)
+        username.text = user?.name
+        tweetCounter.text = "\(user?.twitCount)"
+        
+        follerCounter.text = "\(user?.followerCount)"
+        follingCounter.text = "\(user?.followingCount)"
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,13 +42,6 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func onLogin(_ sender: Any) {
-        TwitterClient.sharedInstance?.login(success: { 
-            self.performSegue(withIdentifier: "loginSegue", sender: self)
-        }, failure: { (error) in
-            print(error.localizedDescription)
-        })
-    }
 
     /*
     // MARK: - Navigation

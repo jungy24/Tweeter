@@ -25,6 +25,8 @@ class DetailViewController: UITableViewController {
     @IBOutlet weak var handleLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var avatarView: UIImageView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,6 +51,7 @@ class DetailViewController: UITableViewController {
         var dater = DateFormatter()
         dater.dateFormat = "M/d/YYYY, hh:mm a"
         self.timLabel.text = dater.string(from: tweet.timestamp!)
+        
         
     }
 
@@ -133,7 +136,7 @@ class DetailViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 3
     }
-
+    
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

@@ -42,6 +42,7 @@ class TwitterClient: BDBOAuth1SessionManager {
             failure(error)
         }
     }
+
     
     // Handle returning to app from authentication
     func handleOpenURL(url: URL) {
@@ -117,6 +118,18 @@ class TwitterClient: BDBOAuth1SessionManager {
             
             //Return error
             failure(error)
+        }
+        
+    }
+    
+    func reply(id: String, text: String, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        
+        post("1.1/statuses/update.json", parameters: ["in_reply_to_status_id": id, "status": text], progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let response = response as! NSDictionary
+            let tweet = Tweet.init(info: response)
+            print("successful tweet")
+        }) { (task: URLSessionDataTask?, error: Error) in
+            print(error.localizedDescription)
         }
         
     }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BDBOAuth1Manager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Check if user is already logged in
         if User.currentUser != nil {
             // Set feed as root view controller
-            let feed = storyboard.instantiateViewController(withIdentifier: "FeedViewController")
+            let feed = storyboard.instantiateViewController(withIdentifier: "TweetsViewController")
             window?.rootViewController = feed
         } else {
             let login = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
@@ -35,8 +36,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Reset root ViewController on logout
             self.window?.rootViewController = storyboard.instantiateInitialViewController()
         }
+        
+        let feed = storyboard.instantiateViewController(withIdentifier: "FeedViewController")
+        feed.tabBarItem.title = "Feed"
+        
+        let tab = storyboard.instantiateViewController(withIdentifier: "ProfileViewController")
+        tab.tabBarItem.title = "Me"
+        
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [feed,tab]
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+        
         return true
     }
+
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

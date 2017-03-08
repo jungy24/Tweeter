@@ -21,6 +21,9 @@ class User: NSObject {
     var location: String? // User location
     var profileURL: URL? // Profile image URL
     var verified = false // User verification status
+    var twitCount : Int? // Number of tweets
+    var followingCount : Int? // Number following
+    var status : String?
     
     init(info: NSDictionary) {
         // Initialize user information
@@ -32,6 +35,8 @@ class User: NSObject {
         followerCount = info["followers_count"] as? Int
         location = info["location"] as? String
         verified = info["verified"] as! Bool
+        twitCount = info["statuses_count"] as? Int
+        followingCount = info["friends_count"] as? Int
         guard let profileURLString = info["profile_image_url"] as? String else {
             return
         }
